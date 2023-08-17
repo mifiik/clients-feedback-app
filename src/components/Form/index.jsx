@@ -1,15 +1,28 @@
+import { useForm } from 'react-hook-form';
 import formStyle from './styles.module.css';
 import buttonIcon from '../images/buttonIcon.webp';
 
 function Form() {
+	const {
+		register,
+		handleSubmit,
+		// watch,
+		formState: { errors },
+	} = useForm();
+	function formValue(value) {
+		console.log(value);
+	}
 	return (
 		<div className={formStyle.container}>
-			<form className={formStyle.formBlock}>
+			<form className={formStyle.formBlock} onSubmit={handleSubmit(formValue)}>
 				<div className={formStyle.formInputs}>
-					<input type="text" placeholder="Ваше имя*" />
-					<input type="text" placeholder="Телефон" />
-					<input type="email" placeholder="Электронная почта*" />
-					<textarea name="" id="" placeholder="Текст сообщения*" />
+					<div>
+						<input {...register('name', { required: true })} type="text" placeholder="Ваше имя*" />
+						{errors.name && <span>This field is required!!!!</span>}
+					</div>
+					<input {...register('phone')} type="text" placeholder="Телефон" />
+					<input {...register('mail')} type="email" placeholder="Электронная почта*" />
+					<textarea {...register('message')} placeholder="Текст сообщения*" />
 				</div>
 				<div className={formStyle.checkbox}>
 					<p>*обязательные поля</p>
